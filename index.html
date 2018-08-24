@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Zombie game</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="modules/player.js"></script>
+        <script src="modules/location.js"></script>
+        <script src="modules/item.js"></script>
+        <script src="modules/zombie.js"></script>
+        <script>
+            (function init () {
+                Player.init();
+                Location.init();
+                Item.init();
+                Zombie.init();
+            }());
+        </script>
+    </head>
+    <body>
+        <div>
+            <h1 id="test" class="text">This is a test.</h1>
+        </div>
+    </body>
+</html>
