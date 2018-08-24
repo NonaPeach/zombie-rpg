@@ -1,4 +1,5 @@
 var Location = {
+    // Settings
     visited: false,
 
     init: function () {
