@@ -14,6 +14,7 @@ var Player = {
     difficulty: null,
     grabbed: false,
     hp: 10,
+    inv: [],
     kills: 0,
     location: null,
     warmth: 3,
@@ -25,12 +26,11 @@ var Player = {
     metWoman: false,
 
     init: function () {
-        var self = this;
         console.log('Player init');
-        self.wakeUp();
+        this.wakeUp();
     },
 
-    wakeUp: function() {
+    wakeUp: function () {
         console.log('Waking up');
     }
 };

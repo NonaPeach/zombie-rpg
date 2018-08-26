@@ -1,5 +1,10 @@
-body {
+#game {
     background-color: #dddddd;
+}
+
+#history {
+    background-color: #b0b0b0;
+    font-color: red;
 }
 
 .text {
