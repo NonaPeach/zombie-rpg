@@ -5,43 +5,79 @@ var Game = {
         console.log('Game init');
 
         // Create game div
-        var game = $('<div />', { id: 'game' })[0];
+        var game = $('<div />', { id: 'game' });
         $('body').append(game);
 
         // Create history div
-        var history = $('<div />', { id: 'history' })[0];
+        var history = $('<div />', { id: 'history' });
         game.prepend(history);
     },
 
     getGame: function () {
-        return $('#game')[0];
+        return $('#game');
+    },
+
+    getCurrent: function () {
+        return $('#current');
     },
 
     getHistory: function () {
-        return $('#history')[0];
+        return $('#history');
     },
 
-    doSomething: function () {
-        var game = this.getGame(),
-            history = this.getHistory();
+    createCurrentText: function (text) {
+        var newDiv = $('<div />', { id: 'current' }),
+            newText = this.createTextEl(text);
+
+        newDiv.append(newText);
+        return newDiv;
     },
 
     createTextEl: function (text) {
-        return $('<p />', { class: 'text', text: text })[0];
+        return $('<p />', { class: 'text', text: text });
     },
 
-    makeKeyword: function(jqEl, keyword) {
-        var textEl = jqEl.find('p:first')[0],
-            textFragments = textEl.innerText.split(keyword);
+    // Takes a jQuery element and the word to make into a link.
+    // Removes the original text from the element and replaces
+    // it with new p elements containing the text and keyword.
+    makeKeyword: function (el, keyword) {
+        var self = this,
+            textEl = el.find('p:first'),
+            textFragments = textEl.text().split(keyword);
             keywordEl = $('<p />', {
                 class: 'text keyword',
                 text: keyword
             });
 
-        jqEl.empty();
-        jqEl.append(this.createTextEl(textFragments[0]));
-        jqEl.append(keywordEl);
-        jqEl.append(this.createTextEl(textFragments[1]));
-        return jqEl
+        keywordEl.click(function () {
+            self.moveCurrentToHistory();
+            self.newCurrent();
+        });
+
+        textEl.remove();
+        el.append(this.createTextEl(textFragments[0]));
+        el.append(keywordEl);
+        el.append(this.createTextEl(textFragments[1]));
+        return el
+    },
+
+    moveCurrentToHistory: function () {
+        var game = this.getGame(),
+            history = this.getHistory(),
+            current = this.getCurrent();
+
+        current.remove();
+        current.removeAttr('id');
+        current.off('click');
+        history.append(current);
+    },
+
+    newCurrent: function () {
+        var game = this.getGame(),
+            newThing = this.createCurrentText('You get up and find yourself standing in a bedroom.');
+
+        newThing = this.makeKeyword(newThing, 'bedroom');
+        newThing.attr('id', 'current');
+        game.append(newThing);
     }
 };

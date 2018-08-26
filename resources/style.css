@@ -2,10 +2,6 @@ div#current {
     background-color: #dddddd;
 }
 
-#history {
-    background-color: #b0b0b0;
-}
-
 .text {
     color: #394d8d;
     float: left;
@@ -14,7 +10,21 @@ div#current {
 }
 
 .keyword {
-    color: red;
-    text-decoration: underline;
+    color: #273563;
     cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#history {
+    background-color: #b0b0b0;
+}
+
+#history > div > .text {
+    color: #6e8ae5;
+}
+
+#history > div > .keyword {
+    color: #6376b7;
+    cursor: default;
 }
