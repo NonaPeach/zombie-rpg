@@ -10,7 +10,7 @@ var Game = {
 
         // Create history div
         var history = $('<div />', { id: 'history' })[0];
-        game.append(history);
+        game.prepend(history);
     },
 
     getGame: function () {
@@ -24,5 +24,24 @@ var Game = {
     doSomething: function () {
         var game = this.getGame(),
             history = this.getHistory();
+    },
+
+    createTextEl: function (text) {
+        return $('<p />', { class: 'text', text: text })[0];
+    },
+
+    makeKeyword: function(jqEl, keyword) {
+        var textEl = jqEl.find('p:first')[0],
+            textFragments = textEl.innerText.split(keyword);
+            keywordEl = $('<p />', {
+                class: 'text keyword',
+                text: keyword
+            });
+
+        jqEl.empty();
+        jqEl.append(this.createTextEl(textFragments[0]));
+        jqEl.append(keywordEl);
+        jqEl.append(this.createTextEl(textFragments[1]));
+        return jqEl
     }
 };

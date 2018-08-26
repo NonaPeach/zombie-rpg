@@ -32,5 +32,11 @@ var Player = {
 
     wakeUp: function () {
         console.log('Waking up');
+        var game = Game.getGame(),
+            start = $('<div />', { id: 'current' }),
+            text = Game.createTextEl('You wake up.  You should stand.');
+        start.append(text);
+        start = Game.makeKeyword(start, 'stand');
+        game.append(start[0]);
     }
 };

@@ -1,13 +1,20 @@
-#game {
+div#current {
     background-color: #dddddd;
 }
 
 #history {
     background-color: #b0b0b0;
-    font-color: red;
 }
 
 .text {
     color: #394d8d;
+    float: left;
     font-family: Verdana, sans-serif;
+    white-space: pre;
+}
+
+.keyword {
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
 }
