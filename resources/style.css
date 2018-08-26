@@ -1,5 +1,7 @@
-div#current {
+#current {
     background-color: #dddddd;
+    clear: left;
+    float: left;
 }
 
 .text {
@@ -17,7 +19,13 @@ div#current {
 }
 
 #history {
-    background-color: #b0b0b0;
+    background-color: #eaeaea;
+    float: left;
+}
+
+#history > div {
+    clear: left;
+    float: left;
 }
 
 #history > div > .text {

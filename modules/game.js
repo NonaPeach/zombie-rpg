@@ -74,7 +74,7 @@ var Game = {
 
     newCurrent: function () {
         var game = this.getGame(),
-            newThing = this.createCurrentText('You get up and find yourself standing in a bedroom.');
+            newThing = this.createCurrentText('You are standing in a bedroom.');
 
         newThing = this.makeKeyword(newThing, 'bedroom');
         newThing.attr('id', 'current');
