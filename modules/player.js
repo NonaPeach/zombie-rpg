@@ -13,11 +13,11 @@ var Player = {
     },
     difficulty: null,
     grabbed: false,
-    hp: 10,
+    hp: 0,
     inv: [],
     kills: 0,
     location: null,
-    warmth: 3,
+    warmth: 0,
 
     // Event tracking
     drankBeer: false,
@@ -27,15 +27,22 @@ var Player = {
 
     init: function () {
         console.log('Player init');
-        this.wakeUp();
+        this.hp = 10;
+        this.warmth = 3;
+        this.setLocation(FarmBedroom);
     },
 
     wakeUp: function () {
         console.log('Waking up');
-        var game = Game.getGame(),
-            start = Game.createCurrentText('You wake up.  You should stand.');
+        // var game = Game.getGame(),
+        //     start = Game.createCurrentText('You wake up.  You should stand.');
 
-        start = Game.makeKeyword(start, 'stand');
-        game.append(start);
+        // start = Game.makeKeyword(start, 'stand');
+        // game.append(start);
+        this.location.enter();
+    },
+
+    setLocation: function (loc) {
+        this.location = loc;
     }
 };

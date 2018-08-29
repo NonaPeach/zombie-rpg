@@ -12,16 +12,19 @@
         <script src="modules/badge.js"></script>
         <script src="modules/character.js"></script>
         <script>
-            $(init);
-            function init () {
+            $(document).ready(function () {
+                // init modules
                 Game.init();
+                Player.init();
                 Item.init();
-                Location.init();
                 Zombie.init();
                 Character.init();
+                Location.init();
                 Badge.init();
-                Player.init();
-            };
+
+                // Start the game
+                Player.wakeUp();
+            });
         </script>
     </head>
     <body></body>

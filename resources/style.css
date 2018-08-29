@@ -8,7 +8,7 @@
     color: #394d8d;
     float: left;
     font-family: Verdana, sans-serif;
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 .keyword {
