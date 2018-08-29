@@ -2,6 +2,6 @@ var Item = {
     // Settings
 
     init: function () {
-        console.log('Item init');
+        Game.trace('Item init');
     }
 };

@@ -26,14 +26,14 @@ var Player = {
     metWoman: false,
 
     init: function () {
-        console.log('Player init');
+        Game.trace('Player init');
         this.hp = 10;
         this.warmth = 3;
         this.setLocation(FarmBedroom);
     },
 
     wakeUp: function () {
-        console.log('Waking up');
+        Game.trace('Player.wakeUp()');
         // var game = Game.getGame(),
         //     start = Game.createCurrentText('You wake up.  You should stand.');
 
@@ -43,6 +43,7 @@ var Player = {
     },
 
     setLocation: function (loc) {
+        Game.trace('Player.setLocation()');
         this.location = loc;
     }
 };

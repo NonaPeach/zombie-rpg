@@ -1,8 +1,10 @@
 var Game = {
     // Settings
+    debugMode: 1, // 0: none, 1: trace, 2: debug, 3: error
 
     init: function () {
-        console.log('Game init');
+        console.log(`Debug mode: ${this.debugMode}`);
+        this.trace('Game init');
 
         // Create game and history divs
         var game = $('<div />', { id: 'game' }),
@@ -11,19 +13,42 @@ var Game = {
         game.prepend(history);
     },
 
+    trace: function (msg) {
+        if (this.debugMode > 0) {
+            console.log(`Trace: ${msg}`);
+        }
+    },
+
+    debug: function (msg) {
+        if (this.debugMode > 1) {
+            console.log(`Debug: ${msg}`);
+        }
+    },
+
+    error: function (msg) {
+        if (this.debugMode > 2) {
+            console.log(`Error: ${msg}`);
+            alert(`Error: ${msg}`);
+        }
+    },
+
     getGame: function () {
+        this.trace('Game.getGame()');
         return $('#game');
     },
 
     getCurrent: function () {
+        this.trace('Game.getCurrent()');
         return $('#current');
     },
 
     getHistory: function () {
+        this.trace('Game.getHistory()');
         return $('#history');
     },
 
     createCurrentText: function (text) {
+        this.trace('Game.createCurrentText()');
         var newDiv = $('<div />', { id: 'current' }),
             newText = this.createText(text);
 
@@ -32,6 +57,7 @@ var Game = {
     },
 
     createText: function (text) {
+        this.trace('Game.createText()');
         return $('<p />', { class: 'text', text: text });
     },
 
@@ -39,10 +65,11 @@ var Game = {
     // text from the element and replaces it with new p elements for each
     // keyword and each text segment between keywords.
     makeKeywords: function (el, loc) {
+        this.trace('Game.makeKeywords()');
         var keys = loc.items.concat(loc.movement);
-        console.log(keys);
+
         if (!keys) {
-            alert(`There are no keys for ${loc.name}`);
+            this.error(`There are no keys for ${loc.name}`);
         } else {
             var self = this,
                 keywords = [],
@@ -92,7 +119,7 @@ var Game = {
 
                     // Confirm no more than one keyword was found
                     if (clickedLocation.length > 1) {
-                        alert('Something went wrong.  There are too many locations for the keyword ${kw}.');
+                        this.error('Something went wrong.  There are too many locations for the keyword ${kw}.');
                     } else if (clickedLocation.length === 1) {
                         clickedLocation = clickedLocation[0];
                     } else {
@@ -106,7 +133,7 @@ var Game = {
 
                     // Confirm no more than one keyword was found
                     if (clickedItem.length > 1) {
-                        alert('Something went wrong.  There are too many items for the keyword ${kw}.');
+                        this.error('Something went wrong.  There are too many items for the keyword ${kw}.');
                     } else if (clickedItem.length === 1) {
                         clickedItem = clickedItem[0];
                     } else {
@@ -133,6 +160,7 @@ var Game = {
     },
 
     moveCurrentToHistory: function () {
+        this.trace('Game.moveCurrentToHistory()');
         var game = this.getGame(),
             history = this.getHistory(),
             current = this.getCurrent();
@@ -144,6 +172,7 @@ var Game = {
     },
 
     newCurrent: function (location) {
+        this.trace('Game.newCurrent()');
         var game = this.getGame(),
             current = this.createCurrentText(location.getText()),
             keywords = [];
@@ -153,10 +182,12 @@ var Game = {
     },
 
     newItemKeyword: function (keyword, item) {
+        this.trace('Game.newItemKeyword()');
         return  { keyword, item };
     },
 
     newMovementKeyword: function (keyword, location) {
+        this.trace('Game.newMovementKeyword()');
         return { keyword, location };
     }
 };

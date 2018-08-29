@@ -14,15 +14,17 @@ var Location = {
     },
 
     init: function () {
-        console.log('Location init');
+        Game.trace('Location init');
     },
 
     getText: function () {
+        Game.trace('Location.getText()');
         return this.visited ? this.visitN : this.visit1
     },
 
     enter: function () {
-        console.log(`Entering ${this.name}`);
+        Game.trace('Location.enter()');
+        Game.debug(`Entering ${this.name}`);
         Game.moveCurrentToHistory();
         Game.newCurrent(this);
         Player.setLocation(this);

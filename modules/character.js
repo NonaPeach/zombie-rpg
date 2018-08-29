@@ -5,6 +5,6 @@ var Character = {
     name: null,
 
     init: function () {
-        console.log('Character init');
+        Game.trace('Character init');
     }
 };
