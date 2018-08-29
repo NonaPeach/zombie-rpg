@@ -1,6 +1,6 @@
 var Game = {
     // Settings
-    debugMode: 1, // 0: none, 1: trace, 2: debug, 3: error
+    debugMode: 2, // 0: none, 1: error, 2: debug, 3: trace
 
     init: function () {
         console.log(`Debug mode: ${this.debugMode}`);
@@ -14,7 +14,7 @@ var Game = {
     },
 
     trace: function (msg) {
-        if (this.debugMode > 0) {
+        if (this.debugMode > 2) {
             console.log(`Trace: ${msg}`);
         }
     },
@@ -26,7 +26,7 @@ var Game = {
     },
 
     error: function (msg) {
-        if (this.debugMode > 2) {
+        if (this.debugMode > 0) {
             console.log(`Error: ${msg}`);
             alert(`Error: ${msg}`);
         }
