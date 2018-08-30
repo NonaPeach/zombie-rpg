@@ -34,11 +34,6 @@ var Player = {
 
     wakeUp: function () {
         Game.trace('Player.wakeUp()');
-        // var game = Game.getGame(),
-        //     start = Game.createCurrentText('You wake up.  You should stand.');
-
-        // start = Game.makeKeyword(start, 'stand');
-        // game.append(start);
         this.location.enter();
     },
 

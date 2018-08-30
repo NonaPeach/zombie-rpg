@@ -73,6 +73,7 @@ var Game = {
         } else {
             var self = this,
                 keywords = [],
+                foundKeywords = [],
                 textEl = el.find('p:first'),
                 text = textEl.text(),
                 words = text.split(/[\s,.]+/),
@@ -87,23 +88,24 @@ var Game = {
             // Get the text fragments between keywords
             for (i = 0; i < words.length; i++) {
                 if (keywords.includes(words[i])) {
+                    foundKeywords.push(words[i]);
                     var splitText = text.split(words[i]);
                     textFragments.push(splitText[0]);
                     text = splitText[1];
-
-                    // If that's the last keyword, exit loop
-                    if (textFragments.length === keywords.length) {
-                        textFragments.push(text);
-                        break;
-                    }
                 }
+            }
+
+            // If keywords were found, add the last piece of text
+            // Should always occur, but check just in case
+            if (foundKeywords.length > 0) {
+                textFragments.push(text);
             }
 
             // Remove the single string of text prior to replacing it
             textEl.remove();
 
             for (i = 0; i < textFragments.length; i++) {
-                var kw = keywords[i];
+                var kw = foundKeywords[i];
                 el.append(this.createText(textFragments[i]));
 
                 if (kw) {
@@ -148,7 +150,7 @@ var Game = {
                     // } else if (clickedItem){
                     //     keywordEl.click(function () {
                     //         self.moveCurrentToHistory();
-                    //         clickedLocation.enter();
+                    //         clickedItem.pickUp();
                     //     });
                     }
 
