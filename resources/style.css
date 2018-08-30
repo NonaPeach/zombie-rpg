@@ -2,10 +2,12 @@
     background-color: #dddddd;
     clear: left;
     float: left;
+    padding: 5px 5px 7px 5px;
 }
 
 .text {
     color: #394d8d;
+    display: contents; /* Prevents line breaks at the end of long p elements */
     float: left;
     font-family: Verdana, sans-serif;
     white-space: pre-wrap;
@@ -24,8 +26,10 @@
 }
 
 #history > div {
+    border-bottom: 2px solid #dddddd;
     clear: left;
     float: left;
+    padding: 7px 5px 7px 5px;
 }
 
 #history > div > .text {

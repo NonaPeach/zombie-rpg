@@ -167,6 +167,7 @@ var Game = {
 
         current.remove();
         current.removeAttr('id');
+        current.addClass('historyDiv');
         current.off('click');
         history.append(current);
     },
