@@ -66,7 +66,9 @@ var Game = {
     // keyword and each text segment between keywords.
     makeKeywords: function (el, loc) {
         this.trace('Game.makeKeywords()');
-        var keys = loc.items.concat(loc.movement);
+        var keys = loc.items
+                .concat(loc.movement)
+                .concat(loc.props);
 
         if (!keys) {
             this.error(`There are no keys for ${loc.name}`);
@@ -109,48 +111,53 @@ var Game = {
                 el.append(this.createText(textFragments[i]));
 
                 if (kw) {
+                    var keywordEl,
+                        findKeyword = function (key, type) {
+                            var keysList = type === 'movement' ? loc.movement : (  // if movement
+                                    type === 'prop' ? loc.props : (  // else if prop
+                                        type === 'item' ? loc.items : null  // else if item, else null
+                                    )
+                                ),
+                                found = keysList.filter(k => {
+                                    return k.keyword === kw;
+                                });
+
+                            if (found.length > 1) {
+                                this.error(`Something went wrong.  There are too many keywords called ${key}.`);
+                            } else if (found.length === 1) {
+                                found = found[0];
+                            } else {
+                                found = null;
+                            }
+
+                            return found;
+                        }
+                        foundMovement = findKeyword(kw, 'movement'),
+                        foundProp = findKeyword(kw, 'prop'),
+                        foundItem = findKeyword(kw, 'item');
+
                     keywordEl = $('<p />', {
                         class: 'text keyword',
                         text: kw
                     });
 
-                    // Find the location keyword that corresponds to what was clicked
-                    var clickedLocation = loc.movement.filter(key => {
-                            return key.keyword === kw;
-                        });
-
-                    // Confirm no more than one keyword was found
-                    if (clickedLocation.length > 1) {
-                        this.error('Something went wrong.  There are too many locations for the keyword ${kw}.');
-                    } else if (clickedLocation.length === 1) {
-                        clickedLocation = clickedLocation[0];
-                    } else {
-                        clickedLocation = null;
-                    }
-
-                    // Find the item keyword that corresponds to what was clicked
-                    var clickedItem = loc.items.filter(key => {
-                        return key.keyword === kw;
-                    });
-
-                    // Confirm no more than one keyword was found
-                    if (clickedItem.length > 1) {
-                        this.error('Something went wrong.  There are too many items for the keyword ${kw}.');
-                    } else if (clickedItem.length === 1) {
-                        clickedItem = clickedItem[0];
-                    } else {
-                        clickedItem = null;
-                    }
-
-                    if (clickedLocation){
+                    if (foundMovement) {
+                        this.debug(`kw: ${kw}`);
+                        this.debug(`  foundMovement: ${foundMovement.location.name}`);
                         keywordEl.click(function () {
                             self.moveCurrentToHistory();
-                            clickedLocation.location.enter();
+                            self.debug('INSIDE CLICK EVENT');
+                            self.debug(`  click event foundMovement: ${foundMovement.location.name}`);
+                            foundMovement.location.enter();
                         });
-                    // } else if (clickedItem){
+                    } else if (foundProp) {
+                        keywordEl.click(function () {
+                            foundProp.prop.view();
+                        });
+                    // } else if (foundItem){
                     //     keywordEl.click(function () {
                     //         self.moveCurrentToHistory();
-                    //         clickedItem.pickUp();
+                    //         foundItem.pickUp();
                     //     });
                     }
 
@@ -186,7 +193,12 @@ var Game = {
 
     newItemKeyword: function (keyword, item) {
         this.trace('Game.newItemKeyword()');
-        return  { keyword, item };
+        return { keyword, item };
+    },
+
+    newPropKeyword: function (keyword, prop) {
+        this.trace('Game.newPropKeyword()');
+        return { keyword, prop };
     },
 
     newMovementKeyword: function (keyword, location) {
