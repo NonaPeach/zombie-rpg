@@ -76,7 +76,6 @@ var Game = {
         } else {
             var self = this,
                 keywords = [],
-                foundKeywords = [],
                 textEl = el.find('p:first'),
                 text = textEl.text(),
                 words = text.split(/[\s,.]+/),
@@ -89,40 +88,41 @@ var Game = {
             }
 
             // Get the text fragments between keywords
-            for (i = 0; i < words.length; i++) {
-                if (keywords.includes(words[i])) {
-                    foundKeywords.push(words[i]);
-                    var splitText = text.split(words[i]);
-                    textFragments.push(splitText[0]);
-                    text = splitText[1];
+            for (i = 0; i < keywords.length; i++) {
+                var re = new RegExp('\\b' + keywords[i] + '\\b', 'i');
+                if (text.match(re)) {
+                    index = text.search(re);
+                    textFragments.push(text.substring(0, index));
+                    text = text.substring(index + keywords[i].length);
                 }
             }
 
-            // If keywords were found, add the last piece of text
-            // Should always occur, but check just in case
-            if (foundKeywords.length > 0) {
-                textFragments.push(text);
-            }
+            // Add the last piece of text
+            textFragments.push(text);
 
             // Remove the single string of text prior to replacing it
             textEl.remove();
 
             // Loop through each piece of text including keywords
             for (i = 0; i < textFragments.length; i++) {
-                var kw = foundKeywords[i];
+                var kw = keywords[i];
                 el.append(this.createText(textFragments[i]));
 
                 if (kw) {
                     var keywordEl,
                         findKeyword = function (key, type) {
-                            var keysList = type === 'movement' ? loc.movement : (  // if movement
-                                    type === 'prop' ? loc.props : (  // else if prop
-                                        type === 'item' ? loc.items : null  // else if item, else null
-                                    )
-                                ),
-                                found = keysList.filter(k => {
-                                    return k.keyword === kw;
-                                });
+                            var keysList;
+                            if (type === 'movement') {
+                                keysList = loc.movement;
+                            } else if (type === 'prop') {
+                                keysList = loc.props;
+                            } else if (type === 'item') {
+                                keysList = loc.items;
+                            }
+
+                            var found = keysList.filter(k => {
+                                return k.keyword === kw;
+                            });
 
                             if (found.length > 1) {
                                 this.error(`Something went wrong.  There are too many keywords called ${key}.`);
