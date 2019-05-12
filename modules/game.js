@@ -1,6 +1,7 @@
 var Game = {
     // Settings
     debugMode: 2, // 0: none, 1: error, 2: debug, 3: trace
+    locations: {},
 
     init: function () {
         console.log(`Debug mode: ${this.debugMode}`);
@@ -58,7 +59,7 @@ var Game = {
 
     createText: function (text) {
         this.trace('Game.createText()');
-        return $('<p />', { class: 'text', text: text });
+        return $('<p />', { class: 'text', text });
     },
 
     // Takes a jQuery element and the current location. Removes the original
@@ -106,6 +107,7 @@ var Game = {
             // Remove the single string of text prior to replacing it
             textEl.remove();
 
+            // Loop through each piece of text including keywords
             for (i = 0; i < textFragments.length; i++) {
                 var kw = foundKeywords[i];
                 el.append(this.createText(textFragments[i]));
@@ -132,32 +134,31 @@ var Game = {
 
                             return found;
                         }
-                        foundMovement = findKeyword(kw, 'movement'),
+
+                    var foundMovement = findKeyword(kw, 'movement'),
                         foundProp = findKeyword(kw, 'prop'),
                         foundItem = findKeyword(kw, 'item');
 
-                    keywordEl = $('<p />', {
+                    // Create the keyword element
+                    keywordEl = $('<button />', {
                         class: 'text keyword',
                         text: kw
                     });
 
                     if (foundMovement) {
-                        this.debug(`kw: ${kw}`);
-                        this.debug(`  foundMovement: ${foundMovement.location.name}`);
-                        keywordEl.click(function () {
+                        keywordEl[0].id = foundMovement.location.name;  // [0] gets the button itself
+                        keywordEl[0].onclick = function () {
                             self.moveCurrentToHistory();
-                            self.debug('INSIDE CLICK EVENT');
-                            self.debug(`  click event foundMovement: ${foundMovement.location.name}`);
-                            foundMovement.location.enter();
-                        });
+                            Game.locations[this.id].enter();
+                        };
                     } else if (foundProp) {
-                        keywordEl.click(function () {
-                            foundProp.prop.view();
-                        });
+                        // keywordEl.attr('id', foundProp.prop.name);
+                        keywordEl.click(foundProp.prop.view);
                     // } else if (foundItem){
+                    //    keywordEl.attr('id', foundItem.item.name);
                     //     keywordEl.click(function () {
                     //         self.moveCurrentToHistory();
-                    //         foundItem.pickUp();
+                    //         foundItem.item.pickUp();
                     //     });
                     }
 

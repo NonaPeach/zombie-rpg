@@ -10,6 +10,7 @@
     display: contents; /* Prevents line breaks at the end of long p elements */
     float: left;
     font-family: Verdana, sans-serif;
+    font-size: 16px;
     white-space: pre-wrap;
 }
 
